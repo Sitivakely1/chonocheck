@@ -241,7 +241,7 @@ else:
             if sh['pauses'] and sh['pauses'][-1].get('end') is None:
                 col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
-                    st.image("https://media.tenor.com/oI2y0jV8bnwAAAAi/dino-run-slow.gif", width=60, use_container_width=False)
+                    st.image("https://fabianlpineda.wordpress.com/wp-content/uploads/2016/11/walking_trex.gif", width=60, use_container_width=False)
                 with col_status:
                     st.info("Statut : En pause ⏸️")
                 col1, col2 = st.columns(2)
@@ -297,6 +297,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
