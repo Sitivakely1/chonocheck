@@ -241,7 +241,7 @@ else:
             if sh['pauses'] and sh['pauses'][-1].get('end') is None:
                 col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
-                    st.image("https://64.media.tumblr.com/eff6beb128f39730becb4a1b73ff36c6/tumblr_ncenwpkCZW1ruamzho1_1280.gifv", width=60, use_container_width=False)
+                    st.image("https://cdn.pixabay.com/animation/2022/07/29/17/29/17-29-15-99_512.gif", width=60, use_container_width=False)
                 with col_status:
                     st.info("Statut : En pause ⏸️")
                 col1, col2 = st.columns(2)
@@ -297,6 +297,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
