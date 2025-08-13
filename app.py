@@ -303,7 +303,7 @@ else:
     tab1, tab2, tab3 = st.tabs(["⚔️ Ma Mission", "📈 Mon Bilan", "📥 Mes Archives"])
     with tab1:
         st.subheader(f"Statut d'opération pour {user}")
-        st.markdown("*Que votre détermination soit votre blindage.*")
+        st.markdown("*N'oublie pas le goûter de Steve.*")
         if user in data['active_shifts']:
             sh = data['active_shifts'][user]
             start_time_obj = datetime.fromisoformat(sh['start'])
@@ -368,4 +368,5 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
