@@ -20,7 +20,8 @@ st.markdown(
         border-radius: 15px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         color: #00ff88;
-        font-family: 'Digital-7', sans-serif;
+        /* Utilisation d'une police standard pour éviter les problèmes de chargement */
+        font-family: 'monospace', sans-serif;
         font-size: 80px;
         font-weight: bold;
         letter-spacing: 5px;
@@ -36,13 +37,6 @@ st.markdown(
         font-weight: normal;
         margin-left: 10px;
         color: #ffffff;
-    }
-
-    /* Le font 'Digital-7' est souvent utilisé pour ce style d'horloge.
-       Vous pouvez le remplacer par une police plus standard si nécessaire. */
-    @font-face {
-        font-family: 'Digital-7';
-        src: url('https://raw.githubusercontent.com/Anand-Kondhare/digital-clock/master/digital-7.ttf');
     }
     </style>
     <div id="digital-clock" class="digital-clock"></div>
@@ -360,6 +354,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
