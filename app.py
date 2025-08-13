@@ -38,7 +38,7 @@ st.markdown(
     """
     <style>
     body, html, [class*="css"] {
-        font-family: 'Santa Bookmark', sans-serif;
+        font-family: 'Ubuntu', sans-serif;
     }
     .main { background-color: #0f1116 !important; color: #e0e0e0 !important; }
     </style>
@@ -303,6 +303,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
