@@ -41,23 +41,18 @@ st.markdown(
 
     body, html, [class*="css"] {
         font-family: 'Wallpoet', monospace;
-        background-color: #2c3e50; /* Couleur de secours si l'image ne charge pas */
     }
 
     .main {
-        /* background-color: #2c3e50 !important; */
+        background-color: #2c3e50 !important;
         color: #ecf0f1 !important;
-        background-image: url('https://cherry.img.pmdstatic.net/fit/https.3A.2F.2Fimg.2Egamesider.2Ecom.2Fsto.2Fgallery.2Fcb80b3df22bc1703_6107f473e2fe3f137a6d4c1b.2Ejpg/640x360/quality/80/call-of-duty-world-at-war.jpg') !important;
-        background-size: cover !important;
-        background-repeat: no-repeat !important;
+        background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
     }
 
     .stApp {
-        /* background-color: #2c3e50; */
+        background-color: #2c3e50;
         color: #ecf0f1;
-        background-image: url('https://cherry.img.pmdstatic.net/fit/https.3A.2F.2Fimg.2Egamesider.2Ecom.2Fsto.2Fgallery.2Fcb80b3df22bc1703_6107f473e2fe3f137a6d4c1b.2Ejpg/640x360/quality/80/call-of-duty-world-at-war.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
+        background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
     }
 
     .st-emotion-cache-18ni7ap {
@@ -93,7 +88,8 @@ st.markdown(
         box-shadow: none;
         transform: translateY(2px) translateX(2px);
     }
-
+    
+    /* Styles pour le texte des messages st.info */
     .st-emotion-cache-v01q51 p {
         color: #ecf0f1 !important;
         font-weight: bold;
@@ -229,4 +225,146 @@ if cookies.get("user") and cookies.get("user") in USERS:
 if not st.session_state.logged_in:
     st.title("Système de Commandement")
     st.markdown("## Accès Opérations Militaires")
-    col1, col2, col
+    col1, col2, col3 = st.columns([1, 1.5, 1])
+    with col2:
+        with st.form("login_form"):
+            username = st.text_input("Nom de code", key="login_user")
+            password = st.text_input("Mot de passe sécurisé", type="password", key="login_pass")
+            submitted = st.form_submit_button("Entrer dans le QG", use_container_width=True)
+            if submitted:
+                if USERS.get(username) == password:
+                    st.session_state.logged_in = True
+                    st.session_state.current_user = username
+                    cookies["user"] = username
+                    cookies.save()
+                    st.toast(f"Bienvenue, Commandant {username} !", icon="🫡")
+                    st.rerun()
+                else:
+                    st.error("Accès refusé. Nom de code ou mot de passe incorrect.")
+    st.stop()
+
+# --- INTERFACE PRINCIPALE ---
+user = st.session_state.current_user
+data = load_data()
+
+with st.sidebar:
+    st.title("Tableau des Opérations")
+    st.info(f"Commandant en service : **{user}**")
+    if st.button("Déconnexion du système", use_container_width=True, type="primary"):
+        st.session_state.logged_in = False
+        st.session_state.current_user = None
+        cookies["user"] = ""
+        cookies.save()
+        st.toast("Système déconnecté. À bientôt, Commandant.", icon="🚨")
+        st.rerun()
+
+st.header(f"Centre de Commandement")
+
+if user == 'admin':
+    tab1, tab2, tab3 = st.tabs(["📊 Rapport de Mission", "⚙️ Panneau de Sécurité", "📥 Archives de Guerre"])
+    with tab1:
+        st.subheader("Rapport global des Opérations")
+        if not data['completed_shifts']:
+            st.info("Aucune opération terminée pour l'instant.")
+        else:
+            rows = []
+            sorted_shifts = sorted(data['completed_shifts'], key=lambda x: x['start'], reverse=True)
+            for sh in sorted_shifts:
+                date = datetime.fromisoformat(sh['start']).strftime("%d/%m/%Y")
+                rows.append({
+                    "Commandant": sh.get('employee', 'inconnu'),
+                    "Date de mission": date,
+                    "Début mission": datetime.fromisoformat(sh['start']).strftime("%H:%M:%S"),
+                    "Fin mission": datetime.fromisoformat(sh['end']).strftime("%H:%M:%S"),
+                    "Durée d'opération": format_time_h_m(sh.get('worked_seconds', 0)),
+                    "Temps de ravitaillement": format_time_m_s(sh.get('pause_seconds', 0))
+                })
+            st.dataframe(rows, use_container_width=True)
+    with tab2:
+        st.subheader("Zone de danger")
+        if st.button("🔴 Effacer toutes les données de mission"):
+            data['completed_shifts'] = []
+            data['active_shifts'] = {}
+            save_data(data)
+            st.toast("Toutes les archives ont été effacées. Confidentialité totale.", icon="💥")
+            st.rerun()
+    with tab3:
+        st.subheader("Exporter les rapports d'opération")
+        csv_data = export_csv(data, all_users=True)
+        st.download_button(
+            label="📥 Télécharger le rapport global des missions",
+            data=csv_data,
+            file_name=f'rapport_global_missions_{datetime.now().strftime("%Y%m%d")}.csv',
+            mime='text/csv',
+            use_container_width=True
+        )
+
+else:
+    tab1, tab2, tab3 = st.tabs(["⚔️ Ma Mission", "📈 Mon Bilan", "📥 Mes Archives"])
+    with tab1:
+        st.subheader(f"Statut d'opération pour {user}")
+        st.markdown("*Que votre détermination soit votre blindage.*")
+        if user in data['active_shifts']:
+            sh = data['active_shifts'][user]
+            start_time_obj = datetime.fromisoformat(sh['start'])
+
+            # T-Rex + statut
+            if sh['pauses'] and sh['pauses'][-1].get('end') is None:
+                col_trex, col_status = st.columns([0.25, 0.75])
+                with col_trex:
+                    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHZ5dTBwbzZsbWl5aTgxMHQwbW1zcmIzZXBwcHh3cHN5M2V4cmU5bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YqZzVw3d6uJ5l7b19R/giphy.gif", width=60, use_container_width=False)
+                with col_status:
+                    st.info("Statut : En ravitaillement ☕")
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("Retourner au combat", use_container_width=True):
+                        resume_shift(data, user)
+                with col2:
+                    st.button("Mettre fin à la mission", disabled=True, use_container_width=True, help="Reprenez l'opération avant d'y mettre fin.")
+            else:
+                col_trex, col_status = st.columns([0.25, 0.75])
+                with col_trex:
+                    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1oejgzMHY2Z2k4eXp0NXZjZzIzZXc5Z2R2a3FmODJ5ajZ0NnA4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPm2Vq6VdF9jGco/giphy.gif", width=60, use_container_width=False)
+                with col_status:
+                    st.info("Statut : Sur le terrain ! 🪖")
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("Départ en ravitaillement", use_container_width=True):
+                        pause_shift(data, user)
+                with col2:
+                    if st.button("Mettre fin à la mission", type="primary", use_container_width=True):
+                        end_shift(data, user)
+
+        else:
+            st.info("Aucune mission en cours. Prêt à vous déployer ?")
+            if st.button("🚀 Démarrer la mission", use_container_width=True, type="primary"):
+                start_shift(data, user)
+
+    with tab2:
+        st.subheader(f"Journal de combat de {user}")
+        user_shifts = sorted([sh for sh in data['completed_shifts'] if sh.get('employee') == user], key=lambda x: x['start'], reverse=True)
+        if not user_shifts:
+            st.info("Vous n'avez pas encore de mission terminée.")
+        else:
+            rows = []
+            for sh in user_shifts:
+                date = datetime.fromisoformat(sh['start']).strftime("%d/%m/%Y")
+                rows.append({
+                    "Date de mission": date,
+                    "Début de mission": datetime.fromisoformat(sh['start']).strftime("%H:%M"),
+                    "Fin de mission": datetime.fromisoformat(sh['end']).strftime("%H:%M"),
+                    "Durée d'opération": format_time_h_m(sh.get('worked_seconds', 0)),
+                    "Temps de ravitaillement": format_time_m_s(sh.get('pause_seconds', 0))
+                })
+            st.dataframe(rows, use_container_width=True)
+
+    with tab3:
+        st.subheader("Exporter mes données de mission")
+        csv_data = export_csv(data, all_users=False, current_user=user)
+        st.download_button(
+            label="📥 Télécharger le rapport de mes missions",
+            data=csv_data,
+            file_name=f'rapport_missions_{user}_{datetime.now().strftime("%Y%m%d")}.csv',
+            mime='text/csv',
+            use_container_width=True
+        )
