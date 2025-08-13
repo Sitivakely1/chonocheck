@@ -68,7 +68,7 @@ st.markdown(
 
     .stButton>button {
         background-color: #e74c3c;
-        color: #000000; /* Correction ici: le texte du bouton est maintenant noir */
+        color: #000000;
         border: 2px solid #ecf0f1;
         border-radius: 8px;
         padding: 10px 24px;
@@ -88,10 +88,11 @@ st.markdown(
         box-shadow: none;
         transform: translateY(2px) translateX(2px);
     }
-
-    .st-emotion-cache-v01q51 {
-        background-color: #3b1f4b;
-        border-radius: 8px;
+    
+    /* Styles pour le texte des messages st.info */
+    .st-emotion-cache-v01q51 p {
+        color: #ecf0f1 !important;
+        font-weight: bold;
     }
 
     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
@@ -309,9 +310,9 @@ else:
 
             # T-Rex + statut
             if sh['pauses'] and sh['pauses'][-1].get('end') is None:
-                col_trex, col_status = st.columns([0.15, 0.75])
+                col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
-                    st.image("https://cdn.pixabay.com/animation/2022/11/01/05/33/05-33-37-524_512.gif", width=60, use_container_width=False)
+                    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHZ5dTBwbzZsbWl5aTgxMHQwbW1zcmIzZXBwcHh3cHN5M2V4cmU5bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YqZzVw3d6uJ5l7b19R/giphy.gif", width=60, use_container_width=False)
                 with col_status:
                     st.info("Statut : En ravitaillement ☕")
                 col1, col2 = st.columns(2)
@@ -321,9 +322,9 @@ else:
                 with col2:
                     st.button("Mettre fin à la mission", disabled=True, use_container_width=True, help="Reprenez l'opération avant d'y mettre fin.")
             else:
-                col_trex, col_status = st.columns([0.15, 0.75])
+                col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
-                    st.image("https://cdn.pixabay.com/animation/2022/09/12/14/50/14-50-36-1_512.gif", width=60, use_container_width=False)
+                    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1oejgzMHY2Z2k4eXp0NXZjZzIzZXc5Z2R2a3FmODJ5ajZ0NnA4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPm2Vq6VdF9jGco/giphy.gif", width=60, use_container_width=False)
                 with col_status:
                     st.info("Statut : Sur le terrain ! 🪖")
                 col1, col2 = st.columns(2)
@@ -367,5 +368,3 @@ else:
             mime='text/csv',
             use_container_width=True
         )
-
-
