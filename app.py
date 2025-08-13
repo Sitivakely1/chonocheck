@@ -68,7 +68,7 @@ st.markdown(
 
     .stButton>button {
         background-color: #e74c3c;
-        color: #000000;
+        color: #000000; /* Correction ici: le texte du bouton est maintenant noir */
         border: 2px solid #ecf0f1;
         border-radius: 8px;
         padding: 10px 24px;
@@ -88,11 +88,10 @@ st.markdown(
         box-shadow: none;
         transform: translateY(2px) translateX(2px);
     }
-    
-    /* Styles pour le texte des messages st.info */
-    .st-emotion-cache-v01q51 p {
-        color: #ecf0f1 !important;
-        font-weight: bold;
+
+    .st-emotion-cache-v01q51 {
+        background-color: #3b1f4b;
+        border-radius: 8px;
     }
 
     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
