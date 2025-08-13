@@ -4,6 +4,14 @@ import os
 import csv
 from datetime import datetime
 from streamlit_cookies_manager import EncryptedCookieManager
+import pytz
+
+# Définir le fuseau horaire de l'Europe/Paris
+tz_paris = pytz.timezone('Europe/Paris') # <-- AJOUTEZ CETTE LIGNE
+
+# --- CONFIGURATION DE LA PAGE ---
+st.set_page_config(layout="wide", page_title="Chronométrage Pro")
+# ...
 
 # --- CONFIGURATION DE LA PAGE ---
 st.set_page_config(layout="wide", page_title="Chronométrage Pro")
@@ -56,7 +64,7 @@ def format_time_m_s(seconds):
     return f"{minutes}m {seconds_remaining}s"
 
 def now_iso():
-    return datetime.now().isoformat(timespec='seconds')
+    return datetime.now(tz=tz_paris).isoformat(timespec='seconds')
 
 def load_data():
     if os.path.exists(DATA_FILE):
@@ -72,18 +80,18 @@ def save_data(data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 def compute_pause_seconds(shift):
-    total = 0
-    for p in shift['pauses']:
-        start = datetime.fromisoformat(p['start'])
-        end = datetime.fromisoformat(p['end']) if p['end'] else datetime.now()
-        total += (end - start).total_seconds()
-    return total
+    total = 0
+    for p in shift['pauses']:
+        start = datetime.fromisoformat(p['start']).astimezone(tz_paris)
+        end = datetime.fromisoformat(p['end']).astimezone(tz_paris) if p['end'] else datetime.now(tz=tz_paris)
+        total += (end - start).total_seconds()
+    return total
 
 def compute_worked_seconds(shift):
-    start = datetime.fromisoformat(shift['start'])
-    end = datetime.fromisoformat(shift['end'])
-    total = (end - start).total_seconds() - compute_pause_seconds(shift)
-    return max(0, total)
+    start = datetime.fromisoformat(shift['start']).astimezone(tz_paris)
+    end = datetime.fromisoformat(shift['end']).astimezone(tz_paris)
+    total = (end - start).total_seconds() - compute_pause_seconds(shift)
+    return max(0, total)
 
 def start_shift(data, name):
     if name not in data['active_shifts']:
@@ -281,3 +289,4 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
