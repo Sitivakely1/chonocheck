@@ -239,7 +239,7 @@ else:
 
             # T-Rex + statut
             if sh['pauses'] and sh['pauses'][-1].get('end') is None:
-                col_trex, col_status = st.columns([0.15, 0.85])
+                col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
                     st.image("https://media.tenor.com/oI2y0jV8bnwAAAAi/dino-run-slow.gif", width=60)
                 with col_status:
@@ -251,7 +251,7 @@ else:
                 with col2:
                     st.button("Terminer shift", disabled=True, use_container_width=True, help="Reprenez le travail avant de terminer.")
             else:
-                col_trex, col_status = st.columns([0.15, 0.85])
+                col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
                     st.image("https://media.tenor.com/-_OjjLq7BRIAAAAi/dino-run.gif", width=60)
                 with col_status:
@@ -297,3 +297,4 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
