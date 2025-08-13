@@ -1,5 +1,7 @@
 streamlit_cookies_manager
+pytz
 Flask==2.3.2
 requests==2.31.0
 Flask-SQLAlchemy==3.0.3
+
 
