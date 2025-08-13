@@ -37,28 +37,28 @@ if not cookies.ready():
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Wallpoet&display=swap');
-    
+    @import url('[https://fonts.googleapis.com/css2?family=Wallpoet&display=swap](https://fonts.googleapis.com/css2?family=Wallpoet&display=swap)');
+
     body, html, [class*="css"] {
         font-family: 'Wallpoet', monospace;
     }
 
-    .main { 
-        background-color: #2c3e50 !important; 
+    .main {
+        background-color: #2c3e50 !important;
         color: #ecf0f1 !important;
-        background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+        background-image: url('[https://www.transparenttextures.com/patterns/dark-matter.png](https://www.transparenttextures.com/patterns/dark-matter.png)');
     }
-    
+
     .stApp {
         background-color: #2c3e50;
         color: #ecf0f1;
-        background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+        background-image: url('[https://www.transparenttextures.com/patterns/dark-matter.png](https://www.transparenttextures.com/patterns/dark-matter.png)');
     }
-    
+
     .st-emotion-cache-18ni7ap {
         font-family: 'Wallpoet', monospace;
     }
-    
+
     .st-emotion-cache-1kyxpyv {
         background-color: #34495e;
         border: 2px solid #e74c3c;
@@ -77,7 +77,7 @@ st.markdown(
         box-shadow: 3px 3px 0px #c0392b;
         transition: all 0.2s ease;
     }
-    
+
     .stButton>button:hover {
         background-color: #c0392b;
         box-shadow: 1px 1px 0px #922b21;
@@ -88,7 +88,7 @@ st.markdown(
         box-shadow: none;
         transform: translateY(2px) translateX(2px);
     }
-    
+
     .st-emotion-cache-v01q51 {
         background-color: #3b1f4b;
         border-radius: 8px;
@@ -189,13 +189,12 @@ def end_shift(data, name):
         data['completed_shifts'].append(sh)
         del data['active_shifts'][name]
         save_data(data)
-        st.toast(f"Shift terminé pour {name}. Bon repos !", icon="🎉")
+        st.toast(f"Mission terminée pour {name}. Rapport envoyé !", icon="✅")
         st.rerun()
 
 def export_csv(data, all_users=False, current_user=''):
     import io
     output = io.StringIO()
-    # Ligne corrigée ci-dessous
     writer = csv.writer(output)
     writer.writerow(['Nom', 'Début', 'Fin', 'Temps Travail', 'Temps Pause'])
     shifts = sorted(data['completed_shifts'], key=lambda x: x['start'], reverse=True)
@@ -225,8 +224,8 @@ if cookies.get("user") and cookies.get("user") in USERS:
 if not st.session_state.logged_in:
     st.title("Système de Commandement")
     st.markdown("## Accès Opérations Militaires")
-    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2JsbXg2a2g4Z3RsczUzd2x5b3g2Z3F0N2RmcGl5enV1Nmd5eXZtciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0IylD1H9pY3SgT9C/giphy.gif", use_column_width=True)
-    col1, col2, col3 = st.columns([1,1.5,1])
+    # GIF supprimé ici
+    col1, col2, col3 = st.columns([1, 1.5, 1])
     with col2:
         with st.form("login_form"):
             username = st.text_input("Nom de code", key="login_user")
@@ -304,6 +303,7 @@ else:
     tab1, tab2, tab3 = st.tabs(["⚔️ Ma Mission", "📈 Mon Bilan", "📥 Mes Archives"])
     with tab1:
         st.subheader(f"Statut d'opération pour {user}")
+        st.markdown("*Que votre détermination soit votre blindage.*") # Ajout de la phrase de motivation
         if user in data['active_shifts']:
             sh = data['active_shifts'][user]
             start_time_obj = datetime.fromisoformat(sh['start'])
@@ -312,7 +312,7 @@ else:
             if sh['pauses'] and sh['pauses'][-1].get('end') is None:
                 col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
-                    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHZ5dTBwbzZsbWl5aTgxMHQwbW1zcmIzZXBwcHh3cHN5M2V4cmU5bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YqZzVw3d6uJ5l7b19R/giphy.gif", width=60, use_container_width=False)
+                    st.image("[https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHZ5dTBwbzZsbWl5aTgxMHQwbW1zcmIzZXBwcHh3cHN5M2V4cmU5bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YqZzVw3d6uJ5l7b19R/giphy.gif](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHZ5dTBwbzZsbWl5aTgxMHQwbW1zcmIzZXBwcHh3cHN5M2V4cmU5bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YqZzVw3d6uJ5l7b19R/giphy.gif)", width=60, use_container_width=False)
                 with col_status:
                     st.info("Statut : En ravitaillement ☕")
                 col1, col2 = st.columns(2)
@@ -324,7 +324,7 @@ else:
             else:
                 col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
-                    st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1oejgzMHY2Z2k4eXp0NXZjZzIzZXc5Z2R2a3FmODJ5ajZ0NnA4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPm2Vq6VdF9jGco/giphy.gif", width=60, use_container_width=False)
+                    st.image("[https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1oejgzMHY2Z2k4eXp0NXZjZzIzZXc5Z2R2a3FmODJ5ajZ0NnA4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPm2Vq6VdF9jGco/giphy.gif](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1oejgzMHY2Z2k4eXp0NXZjZzIzZXc5Z2R2a3FmODJ5ajZ0NnA4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPm2Vq6VdF9jGco/giphy.gif)", width=60, use_container_width=False)
                 with col_status:
                     st.info("Statut : Sur le terrain ! 🪖")
                 col1, col2 = st.columns(2)
