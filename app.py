@@ -255,7 +255,7 @@ else:
                 with col_trex:
                     st.image("https://fabianlpineda.wordpress.com/wp-content/uploads/2016/11/walking_trex.gif", width=60, use_container_width=False)
                 with col_status:
-                    st.info("Statut : En cours de traitement🤩")
+                    st.info("Statut : Occupé")
                 col1, col2 = st.columns(2)
                 with col1:
                     if st.button("Pause", use_container_width=True):
@@ -297,6 +297,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
