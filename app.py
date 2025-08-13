@@ -243,7 +243,7 @@ else:
                 with col_trex:
                     st.image("https://cdn.pixabay.com/animation/2022/07/29/17/29/17-29-15-99_512.gif", width=60, use_container_width=False)
                 with col_status:
-                    st.info("Statut : Reviens vite ! Tes missions t'attendent !")
+                    st.info("Reviens vite ! Tes missions t'attendent !")
                 col1, col2 = st.columns(2)
                 with col1:
                     if st.button("Reprendre", use_container_width=True):
@@ -297,6 +297,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
