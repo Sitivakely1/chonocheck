@@ -10,7 +10,7 @@ import pytz
 tz_paris = pytz.timezone('Europe/Paris')
 
 # --- CONFIGURATION DE LA PAGE ---
-st.set_page_config(layout="wide", page_title="ChronoQuest")
+st.set_page_config(layout="wide", page_title="Commandant en Chef")
 
 # --- USERS ---
 USERS = {
@@ -37,78 +37,58 @@ if not cookies.ready():
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Wallpoet&display=swap');
     
     body, html, [class*="css"] {
-        font-family: 'Press Start 2P', monospace;
-    }
-    
-    .st-emotion-cache-18ni7ap {
-        font-family: 'Press Start 2P', monospace;
+        font-family: 'Wallpoet', monospace;
     }
 
     .main { 
-        background-color: #1a1a2e !important; 
-        color: #e0e0e0 !important;
-        background-image: url('https://www.transparenttextures.com/patterns/epoxy-resin.png');
+        background-color: #2c3e50 !important; 
+        color: #ecf0f1 !important;
+        background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
     }
     
     .stApp {
-        background-color: #1a1a2e;
-        color: #e0e0e0;
-        background-image: url('https://www.transparenttextures.com/patterns/epoxy-resin.png');
+        background-color: #2c3e50;
+        color: #ecf0f1;
+        background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
     }
     
-    .st-emotion-cache-1c7y2ex {
-        background-color: #2e1a3b;
-        border: 2px solid #6a0572;
+    .st-emotion-cache-18ni7ap {
+        font-family: 'Wallpoet', monospace;
+    }
+    
+    .st-emotion-cache-1kyxpyv {
+        background-color: #34495e;
+        border: 2px solid #e74c3c;
         border-radius: 8px;
-        color: #e0e0e0;
+        color: #ecf0f1;
     }
 
     .stButton>button {
-        background-color: #6a0572;
-        color: #f7b731;
-        border: 2px solid #f7b731;
-        border-radius: 12px;
+        background-color: #e74c3c;
+        color: #ecf0f1;
+        border: 2px solid #ecf0f1;
+        border-radius: 8px;
         padding: 10px 24px;
-        font-family: 'Press Start 2P', monospace;
+        font-family: 'Wallpoet', monospace;
         font-size: 14px;
-        box-shadow: 4px 4px 0px #f7b731;
+        box-shadow: 3px 3px 0px #c0392b;
         transition: all 0.2s ease;
     }
     
     .stButton>button:hover {
-        background-color: #8b0a99;
-        box-shadow: 2px 2px 0px #f7b731;
+        background-color: #c0392b;
+        box-shadow: 1px 1px 0px #922b21;
     }
 
     .stButton>button:active {
-        background-color: #4b0351;
+        background-color: #c0392b;
         box-shadow: none;
         transform: translateY(2px) translateX(2px);
     }
     
-    .st-emotion-cache-1kyxpyv {
-        background-color: #2e1a3b;
-        color: #f7b731;
-    }
-    
-    .st-emotion-cache-163w6y5 {
-        color: #f7b731;
-        font-family: 'Press Start 2P', monospace;
-    }
-    
-    .st-emotion-cache-1c7y2ex {
-        background-color: #2e1a3b !important;
-        color: #f7b731 !important;
-        border: 2px solid #f7b731 !important;
-    }
-    
-    .st-emotion-cache-1kyxpyv {
-        background-color: #2e1a3b !important;
-    }
-
     .st-emotion-cache-v01q51 {
         background-color: #3b1f4b;
         border-radius: 8px;
@@ -116,17 +96,19 @@ st.markdown(
 
     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
         font-size: 16px;
-        color: #e0e0e0;
-        font-family: 'Press Start 2P', monospace;
+        color: #ecf0f1;
+        font-family: 'Wallpoet', monospace;
     }
     .stTabs [data-baseweb="tab-list"] button.st-emotion-cache-1q58v9d {
-        background-color: #4b0351;
-        border: 2px solid #e0e0e0;
+        background-color: #34495e;
+        border: 2px solid #ecf0f1;
     }
     .stTabs [data-baseweb="tab-list"] button.st-emotion-cache-1q58v9d:focus:not(:active) {
-        box-shadow: 0 0 0 2px #f7b731;
+        box-shadow: 0 0 0 2px #e74c3c;
     }
-
+    .st-emotion-cache-1b0ud4a p {
+        font-size: 20px;
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -213,175 +195,4 @@ def end_shift(data, name):
 def export_csv(data, all_users=False, current_user=''):
     import io
     output = io.StringIO()
-    writer = csv.writer(output)
-    writer.writerow(['Nom', 'Début', 'Fin', 'Temps Travail', 'Temps Pause'])
-    shifts = sorted(data['completed_shifts'], key=lambda x: x['start'], reverse=True)
-    if not all_users:
-        shifts = [sh for sh in shifts if sh.get('employee') == current_user]
-    for sh in shifts:
-        writer.writerow([
-            sh.get('employee', 'inconnu'),
-            sh.get('start', ''),
-            sh.get('end', ''),
-            format_time_h_m(sh.get('worked_seconds', 0)),
-            format_time_m_s(sh.get('pause_seconds', 0))
-        ])
-    return output.getvalue()
-
-# --- GESTION DE SESSION ---
-if 'logged_in' not in st.session_state:
-    st.session_state.logged_in = False
-    st.session_state.current_user = None
-
-# Vérifier cookie
-if cookies.get("user") and cookies.get("user") in USERS:
-    st.session_state.logged_in = True
-    st.session_state.current_user = cookies.get("user")
-
-# Page login
-if not st.session_state.logged_in:
-    st.title("ChronoQuest")
-    st.markdown("## L'aventure commence ici")
-    st.image("https://i.imgur.com/2uR2Y7j.gif", use_column_width=True)
-    col1, col2, col3 = st.columns([1,1.5,1])
-    with col2:
-        with st.form("login_form"):
-            username = st.text_input("Nom de héros", key="login_user")
-            password = st.text_input("Mot de passe secret", type="password", key="login_pass")
-            submitted = st.form_submit_button("Entrer dans le donjon", use_container_width=True)
-            if submitted:
-                if USERS.get(username) == password:
-                    st.session_state.logged_in = True
-                    st.session_state.current_user = username
-                    cookies["user"] = username
-                    cookies.save()
-                    st.toast(f"Bienvenue, {username}, aventurier !", icon="⚔️")
-                    st.rerun()
-                else:
-                    st.error("Nom de héros ou mot de passe incorrect... l'aventure n'est pas pour vous.")
-    st.stop()
-
-# --- INTERFACE PRINCIPALE ---
-user = st.session_state.current_user
-data = load_data()
-
-with st.sidebar:
-    st.title("Journal de quête")
-    st.info(f"Héros en action : **{user}**")
-    if st.button("Quitter la quête", use_container_width=True, type="primary"):
-        st.session_state.logged_in = False
-        st.session_state.current_user = None
-        cookies["user"] = ""
-        cookies.save()
-        st.toast("Vous avez quitté la partie.", icon="🚪")
-        st.rerun()
-
-st.header(f"Tableau de Bord")
-
-if user == 'admin':
-    tab1, tab2, tab3 = st.tabs(["📊 Donjon", "⚙️ Panneau de Maître", "📥 Trésor de guerre"])
-    with tab1:
-        st.subheader("Bilan des quêtes")
-        if not data['completed_shifts']:
-            st.info("Aucune quête terminée pour l'instant.")
-        else:
-            rows = []
-            sorted_shifts = sorted(data['completed_shifts'], key=lambda x: x['start'], reverse=True)
-            for sh in sorted_shifts:
-                date = datetime.fromisoformat(sh['start']).strftime("%d/%m/%Y")
-                rows.append({
-                    "Nom du Héros": sh.get('employee', 'inconnu'),
-                    "Date de quête": date,
-                    "Début de quête": datetime.fromisoformat(sh['start']).strftime("%H:%M:%S"),
-                    "Fin de quête": datetime.fromisoformat(sh['end']).strftime("%H:%M:%S"),
-                    "Temps d'action": format_time_h_m(sh.get('worked_seconds', 0)),
-                    "Temps de repos": format_time_m_s(sh.get('pause_seconds', 0))
-                })
-            st.dataframe(rows, use_container_width=True)
-    with tab2:
-        st.subheader("Zone de danger")
-        if st.button("🔴 Effacer l'histoire du monde"):
-            data['completed_shifts'] = []
-            data['active_shifts'] = {}
-            save_data(data)
-            st.toast("Toutes les données ont été effacées, l'univers a été réinitialisé.", icon="💥")
-            st.rerun()
-    with tab3:
-        st.subheader("Télécharger le grand livre d'histoire")
-        csv_data = export_csv(data, all_users=True)
-        st.download_button(
-            label="📥 Télécharger le fichier d'histoire global",
-            data=csv_data,
-            file_name=f'shifts_tous_{datetime.now().strftime("%Y%m%d")}.csv',
-            mime='text/csv',
-            use_container_width=True
-        )
-
-else:
-    tab1, tab2, tab3 = st.tabs(["⚔️ Ma Quête", "📈 Mon Bilan", "📥 Mon Trésor"])
-    with tab1:
-        st.subheader(f"Statut de quête pour {user}")
-        if user in data['active_shifts']:
-            sh = data['active_shifts'][user]
-            start_time_obj = datetime.fromisoformat(sh['start'])
-
-            # T-Rex + statut
-            if sh['pauses'] and sh['pauses'][-1].get('end') is None:
-                col_trex, col_status = st.columns([0.25, 0.75])
-                with col_trex:
-                    st.image("https://media.tenor.com/7123dIeQ-8MAAAAC/mario-peach.gif", width=60, use_container_width=False)
-                with col_status:
-                    st.info("Statut : En pause... 🍄")
-                col1, col2 = st.columns(2)
-                with col1:
-                    if st.button("Reprendre l'aventure", use_container_width=True):
-                        resume_shift(data, user)
-                with col2:
-                    st.button("Terminer la quête", disabled=True, use_container_width=True, help="Reprenez l'aventure avant de la terminer.")
-            else:
-                col_trex, col_status = st.columns([0.25, 0.75])
-                with col_trex:
-                    st.image("https://media.tenor.com/7123dIeQ-8MAAAAC/mario-peach.gif", width=60, use_container_width=False)
-                with col_status:
-                    st.info("Statut : En mission ! ⚔️")
-                col1, col2 = st.columns(2)
-                with col1:
-                    if st.button("Faire une pause", use_container_width=True):
-                        pause_shift(data, user)
-                with col2:
-                    if st.button("Terminer la quête", type="primary", use_container_width=True):
-                        end_shift(data, user)
-
-        else:
-            st.info("Aucune quête en cours. Prêt à commencer ?")
-            if st.button("🚀 Démarrer mon aventure", use_container_width=True, type="primary"):
-                start_shift(data, user)
-
-    with tab2:
-        st.subheader(f"Journal de quêtes de {user}")
-        user_shifts = sorted([sh for sh in data['completed_shifts'] if sh.get('employee') == user], key=lambda x: x['start'], reverse=True)
-        if not user_shifts:
-            st.info("Vous n'avez pas encore de quête terminée.")
-        else:
-            rows = []
-            for sh in user_shifts:
-                date = datetime.fromisoformat(sh['start']).strftime("%d/%m/%Y")
-                rows.append({
-                    "Date de quête": date,
-                    "Début de quête": datetime.fromisoformat(sh['start']).strftime("%H:%M"),
-                    "Fin de quête": datetime.fromisoformat(sh['end']).strftime("%H:%M"),
-                    "Temps d'action": format_time_h_m(sh.get('worked_seconds', 0)),
-                    "Temps de repos": format_time_m_s(sh.get('pause_seconds', 0))
-                })
-            st.dataframe(rows, use_container_width=True)
-
-    with tab3:
-        st.subheader("Exporter mon butin")
-        csv_data = export_csv(data, all_users=False, current_user=user)
-        st.download_button(
-            label="📥 Télécharger le journal de mes exploits",
-            data=csv_data,
-            file_name=f'shifts_{user}_{datetime.now().strftime("%Y%m%d")}.csv',
-            mime='text/csv',
-            use_container_width=True
-        )
+    writer = csv.
