@@ -247,7 +247,7 @@ else:
             if sh['pauses'] and sh['pauses'][-1].get('end') is None:
                 col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
-                    st.image("https://cdn.pixabay.com/animation/2022/07/29/17/29/17-29-15-99_512.gif", width=60, use_container_width=False)
+                    st.image("https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTBzeWIwYTR4cnlsc3NvcDRuZWw4Ym1la24xeHM1OTRyZXRtZzN1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1NPUvnQQSqeWv0KT8J/giphy.gif", width=60, use_container_width=False)
                 with col_status:
                     st.info("Reviens vite ! Tes missions t'attendent !")
                 col1, col2 = st.columns(2)
@@ -303,6 +303,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
