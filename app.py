@@ -79,12 +79,12 @@ def save_data(data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 def compute_pause_seconds(shift):
-    total = 0
-    for p in shift['pauses']:
-        start = datetime.fromisoformat(p['start']).astimezone(tz_paris)
-        end = datetime.fromisoformat(p['end']).astimezone(tz_paris) if p['end'] else datetime.now(tz=tz_paris)
-        total += (end - start).total_seconds()
-    return total
+    total = 0
+    for p in shift['pauses']:
+        start = datetime.fromisoformat(p['start']).astimezone(tz_paris)
+        end = datetime.fromisoformat(p['end']).astimezone(tz_paris) if p['end'] else datetime.now(tz=tz_paris)
+        total += (end - start).total_seconds()
+    return total
 
 def compute_worked_seconds(shift):
     start = datetime.fromisoformat(shift['start']).astimezone(tz_paris)
@@ -288,5 +288,6 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
