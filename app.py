@@ -154,8 +154,13 @@ if cookies.get("user") and cookies.get("user") in USERS:
 
 # Page login
 if not st.session_state.logged_in:
-    st.title("Chronométrage Pro ⏱️")
-    col1, col2, col3 = st.columns([1,1.5,1])
+    # Créer trois colonnes et placer le titre dans la colonne du milieu
+    col1, col2, col3 = st.columns([1, 2, 1])  # La colonne du milieu est plus large
+    with col2:
+        st.title("Chronométrage Pro ⏱️")  # Titre centré
+
+    # Formulaire de login
+    col1, col2, col3 = st.columns([1, 1.5, 1])
     with col2:
         with st.form("login_form"):
             username = st.text_input("Nom d'utilisateur", key="login_user")
@@ -172,6 +177,7 @@ if not st.session_state.logged_in:
                 else:
                     st.error("Nom d'utilisateur ou mot de passe incorrect")
     st.stop()
+
 
 # --- INTERFACE PRINCIPALE ---
 user = st.session_state.current_user
@@ -297,6 +303,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
