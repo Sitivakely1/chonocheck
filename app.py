@@ -44,9 +44,9 @@ st.markdown(
     }
 
     .main {
-        background-color: #2c3e50 !important;
+        background-color: #330107 !important;
         color: #ecf0f1 !important;
-        background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+        background-image: url('https://cherry.img.pmdstatic.net/fit/https.3A.2F.2Fimg.2Egamesider.2Ecom.2Fsto.2Fgallery.2Fcb80b3df22bc1703_6107f473e2fe3f137a6d4c1b.2Ejpg/640x360/quality/80/call-of-duty-world-at-war.jpg');
     }
 
     .stApp {
@@ -367,3 +367,4 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
