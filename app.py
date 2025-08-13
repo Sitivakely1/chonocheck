@@ -241,7 +241,7 @@ else:
             if sh['pauses'] and sh['pauses'][-1].get('end') is None:
                 col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
-                    st.image("https://media.tenor.com/oI2y0jV8bnwAAAAi/dino-run-slow.gif", width=60)
+                    st.image("https://media.tenor.com/oI2y0jV8bnwAAAAi/dino-run-slow.gif", width=60, use_column_width=False)
                 with col_status:
                     st.info("Statut : En pause ⏸️")
                 col1, col2 = st.columns(2)
@@ -253,7 +253,7 @@ else:
             else:
                 col_trex, col_status = st.columns([0.25, 0.75])
                 with col_trex:
-                    st.image("https://media.tenor.com/-_OjjLq7BRIAAAAi/dino-run.gif", width=60)
+                    st.image("https://media.tenor.com/-_OjjLq7BRIAAAAi/dino-run.gif", width=60, use_column_width=False)
                 with col_status:
                     st.info("Statut : Au travail 👨‍💻")
                 col1, col2 = st.columns(2)
@@ -297,4 +297,5 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
