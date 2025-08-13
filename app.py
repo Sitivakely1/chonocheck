@@ -309,7 +309,7 @@ else:
 
             # T-Rex + statut
             if sh['pauses'] and sh['pauses'][-1].get('end') is None:
-                col_trex, col_status = st.columns([0.25, 0.75])
+                col_trex, col_status = st.columns([0.15, 0.75])
                 with col_trex:
                     st.image("https://cdn.pixabay.com/animation/2022/11/01/05/33/05-33-37-524_512.gif", width=60, use_container_width=False)
                 with col_status:
@@ -321,7 +321,7 @@ else:
                 with col2:
                     st.button("Mettre fin à la mission", disabled=True, use_container_width=True, help="Reprenez l'opération avant d'y mettre fin.")
             else:
-                col_trex, col_status = st.columns([0.25, 0.75])
+                col_trex, col_status = st.columns([0.15, 0.75])
                 with col_trex:
                     st.image("https://cdn.pixabay.com/animation/2022/09/12/14/50/14-50-36-1_512.gif", width=60, use_container_width=False)
                 with col_status:
@@ -367,4 +367,5 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
