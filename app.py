@@ -46,7 +46,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- Fonctions d'aide ---
+# --- Fonctions utilitaires ---
 def format_time_h_m(seconds):
     if seconds is None: return "0h 0m"
     hours = int(seconds // 3600)
@@ -147,15 +147,14 @@ if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.current_user = None
 
-# Vérifier cookie
 if cookies.get("user") and cookies.get("user") in USERS:
     st.session_state.logged_in = True
     st.session_state.current_user = cookies.get("user")
 
-# Page login
+# --- PAGE LOGIN ---
 if not st.session_state.logged_in:
     st.title("Connexion - Chronométrage Pro ⏱️")
-    col1, col2, col3 = st.columns([1,1.5,1])
+    col1, col2, col3 = st.columns([1, 1.5, 1])
     with col2:
         with st.form("login_form"):
             username = st.text_input("Nom d'utilisateur", key="login_user")
@@ -188,7 +187,7 @@ with st.sidebar:
         st.toast("Vous avez été déconnecté.", icon="👋")
         st.rerun()
 
-st.header(f"Tableau de Bord")
+st.header("Tableau de Bord")
 
 if user == 'admin':
     tab1, tab2, tab3 = st.tabs(["📊 Reporting Global", "⚙️ Actions Administrateur", "📥 Exporter CSV"])
@@ -234,15 +233,9 @@ else:
     with tab1:
         st.subheader(f"Actions pour {user}")
         if user in data['active_shifts']:
-            # --- Affichage du T-Rex pendant que le shift est actif ---
-            st.markdown(
-                """
-                <div style="text-align:center; margin-bottom: -10px;">
-                    <img src="https://media.tenor.com/-_OjjLq7BRIAAAAi/dino-run.gif" alt="T-Rex" width="100">
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            # --- T-Rex pendant shift actif ---
+            st.image("https://media.tenor.com/-_OjjLq7BRIAAAAi/dino-run.gif", width=100)
+
             sh = data['active_shifts'][user]
             start_time_obj = datetime.fromisoformat(sh['start'])
             st.success(f"Shift démarré le {start_time_obj.strftime('%d/%m/%Y')} à {start_time_obj.strftime('%H:%M:%S')}")
@@ -265,19 +258,12 @@ else:
                         end_shift(data, user)
         else:
             st.info("Vous n'avez pas de shift en cours.")
-            st.markdown(
-                """
-                <div style="text-align:center; margin-bottom: -10px;">
-                    <img src="https://media.tenor.com/-_OjjLq7BRIAAAAi/dino-run.gif" alt="T-Rex" width="100">
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            # --- T-Rex avant de démarrer shift ---
+            st.image("https://media.tenor.com/-_OjjLq7BRIAAAAi/dino-run.gif", width=100)
             if st.button("🚀 Démarrer mon shift", use_container_width=True, type="primary"):
                 start_shift(data, user)
-
     with tab2:
-        st.subheader(f"Historique de mes shifts")
+        st.subheader("Historique de mes shifts")
         user_shifts = sorted([sh for sh in data['completed_shifts'] if sh.get('employee') == user], key=lambda x: x['start'], reverse=True)
         if not user_shifts:
             st.info("Vous n'avez pas encore de shift terminé.")
