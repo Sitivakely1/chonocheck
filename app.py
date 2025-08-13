@@ -14,11 +14,11 @@ st.set_page_config(layout="wide", page_title="Chronométrage Pro")
 
 # --- USERS ---
 USERS = {
-    "Navalona": "1234",
-    "Sandy": "1234",
-    "Kanto": "1234",
-    "Volana": "1234",
-    "Steve": "1234",
+    "Navalona": "Andihoo2025",
+    "Sandy": "Andihoo2025",
+    "Kanto": "Andihoo2025",
+    "Volana": "Andihoo2025",
+    "Steve": "Andihoo2025",
     "admin": "adminpass"
 }
 
@@ -303,6 +303,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
