@@ -232,7 +232,7 @@ if user == 'admin':
 else:
     tab1, tab2, tab3 = st.tabs(["⏱️ Chronométrage", "📈 Mon Reporting", "📥 Exporter Mes Données"])
     with tab1:
-        st.subheader(f"Actions pour {user}")
+        st.subheader(f"Suivi des heures de {user}")
         if user in data['active_shifts']:
             sh = data['active_shifts'][user]
             start_time_obj = datetime.fromisoformat(sh['start'])
@@ -297,6 +297,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
