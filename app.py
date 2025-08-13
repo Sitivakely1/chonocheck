@@ -247,7 +247,7 @@ with st.sidebar:
         st.toast("Vous avez été déconnecté.", icon="👋")
         st.rerun()
 
-st.header(f"🕐Chrono🕙")
+st.header(f"🕐Chrono�")
 
 if user == 'admin':
     tab1, tab2, tab3 = st.tabs(["📊 Reporting Global", "⚙️ Actions Administrateur", "📥 Exporter CSV"])
