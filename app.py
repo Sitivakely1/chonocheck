@@ -179,7 +179,7 @@ data = load_data()
 
 with st.sidebar:
     st.title("Menu")
-    st.info(f"Connecté en tant que : **{user}**")
+    st.info(f"Salut **{user}** !")
     if st.button("Se déconnecter", use_container_width=True, type="primary"):
         st.session_state.logged_in = False
         st.session_state.current_user = None
@@ -297,6 +297,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
