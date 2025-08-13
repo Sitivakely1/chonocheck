@@ -9,6 +9,63 @@ import pytz
 # Définir le fuseau horaire de l'Europe/Paris
 tz_paris = pytz.timezone('Europe/Paris')
 
+# HTML et CSS pour l'horloge
+st.markdown(
+    """
+    <style>
+    .digital-clock {
+        text-align: center;
+        padding: 20px;
+        background-color: #1a1a2e;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        color: #00ff88;
+        font-family: 'Digital-7', sans-serif;
+        font-size: 80px;
+        font-weight: bold;
+        letter-spacing: 5px;
+        margin-bottom: 30px;
+        border: 2px solid #00ff88;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .digital-clock-small {
+        font-size: 30px;
+        font-weight: normal;
+        margin-left: 10px;
+        color: #ffffff;
+    }
+
+    /* Le font 'Digital-7' est souvent utilisé pour ce style d'horloge.
+       Vous pouvez le remplacer par une police plus standard si nécessaire. */
+    @font-face {
+        font-family: 'Digital-7';
+        src: url('https://raw.githubusercontent.com/Anand-Kondhare/digital-clock/master/digital-7.ttf');
+    }
+    </style>
+    <div id="digital-clock" class="digital-clock"></div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                timeZone: 'Europe/Paris', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: false
+            };
+            const timeString = now.toLocaleTimeString('fr-FR', options);
+            document.getElementById('digital-clock').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime(); // Appeler une fois immédiatement pour éviter le délai initial
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+
 # --- CONFIGURATION DE LA PAGE ---
 st.set_page_config(layout="wide", page_title="Chronométrage Pro")
 
@@ -303,6 +360,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
