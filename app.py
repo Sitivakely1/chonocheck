@@ -68,7 +68,7 @@ st.markdown(
 
     .stButton>button {
         background-color: #e74c3c;
-        color: #ecf0f1; /* Correction ici: le texte du bouton est maintenant blanc */
+        color: #000000; /* Correction ici: le texte du bouton est maintenant noir */
         border: 2px solid #ecf0f1;
         border-radius: 8px;
         padding: 10px 24px;
