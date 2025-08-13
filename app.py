@@ -7,11 +7,7 @@ from streamlit_cookies_manager import EncryptedCookieManager
 import pytz
 
 # Définir le fuseau horaire de l'Europe/Paris
-tz_paris = pytz.timezone('Europe/Paris') # <-- AJOUTEZ CETTE LIGNE
-
-# --- CONFIGURATION DE LA PAGE ---
-st.set_page_config(layout="wide", page_title="Chronométrage Pro")
-# ...
+tz_paris = pytz.timezone('Europe/Paris')
 
 # --- CONFIGURATION DE LA PAGE ---
 st.set_page_config(layout="wide", page_title="Chronométrage Pro")
@@ -31,7 +27,7 @@ DATA_FILE = 'shifts.json'
 # --- COOKIES ---
 cookies = EncryptedCookieManager(
     prefix="chrono_app/",
-    password="une_chaine_secrete"  # Mets une vraie clé secrète ici
+    password="une_chaine_secrete"
 )
 
 if not cookies.ready():
@@ -65,6 +61,7 @@ def format_time_m_s(seconds):
 
 def now_iso():
     return datetime.now(tz=tz_paris).isoformat(timespec='seconds')
+
 def load_data():
     if os.path.exists(DATA_FILE):
         try:
@@ -237,6 +234,15 @@ else:
     with tab1:
         st.subheader(f"Actions pour {user}")
         if user in data['active_shifts']:
+            # --- Affichage du T-Rex pendant que le shift est actif ---
+            st.markdown(
+                """
+                <div style="text-align:center; margin-bottom: -10px;">
+                    <img src="https://media.tenor.com/-_OjjLq7BRIAAAAi/dino-run.gif" alt="T-Rex" width="100">
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             sh = data['active_shifts'][user]
             start_time_obj = datetime.fromisoformat(sh['start'])
             st.success(f"Shift démarré le {start_time_obj.strftime('%d/%m/%Y')} à {start_time_obj.strftime('%H:%M:%S')}")
@@ -259,8 +265,17 @@ else:
                         end_shift(data, user)
         else:
             st.info("Vous n'avez pas de shift en cours.")
+            st.markdown(
+                """
+                <div style="text-align:center; margin-bottom: -10px;">
+                    <img src="https://media.tenor.com/-_OjjLq7BRIAAAAi/dino-run.gif" alt="T-Rex" width="100">
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             if st.button("🚀 Démarrer mon shift", use_container_width=True, type="primary"):
                 start_shift(data, user)
+
     with tab2:
         st.subheader(f"Historique de mes shifts")
         user_shifts = sorted([sh for sh in data['completed_shifts'] if sh.get('employee') == user], key=lambda x: x['start'], reverse=True)
@@ -288,8 +303,3 @@ else:
             mime='text/csv',
             use_container_width=True
         )
-
-
-
-
-
