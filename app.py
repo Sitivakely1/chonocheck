@@ -87,10 +87,10 @@ def compute_pause_seconds(shift):
     return total
 
 def compute_worked_seconds(shift):
-    start = datetime.fromisoformat(shift['start']).astimezone(tz_paris)
-    end = datetime.fromisoformat(shift['end']).astimezone(tz_paris)
-    total = (end - start).total_seconds() - compute_pause_seconds(shift)
-    return max(0, total)
+    start = datetime.fromisoformat(shift['start']).astimezone(tz_paris)
+    end = datetime.fromisoformat(shift['end']).astimezone(tz_paris)
+    total = (end - start).total_seconds() - compute_pause_seconds(shift)
+    return max(0, total)
 
 def start_shift(data, name):
     if name not in data['active_shifts']:
@@ -288,6 +288,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
