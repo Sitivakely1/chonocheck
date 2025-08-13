@@ -64,7 +64,7 @@ def format_time_m_s(seconds):
     return f"{minutes}m {seconds_remaining}s"
 
 def now_iso():
-return datetime.now(tz=tz_paris).isoformat(timespec='seconds')
+    return datetime.now(tz=tz_paris).isoformat(timespec='seconds')
 def load_data():
     if os.path.exists(DATA_FILE):
         try:
@@ -288,6 +288,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
