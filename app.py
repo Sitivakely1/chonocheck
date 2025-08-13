@@ -265,7 +265,7 @@ else:
                         end_shift(data, user)
 
         else:
-            st.info("Vous n'avez pas de shift en cours.")
+            st.info("Ton avenir t'attend ! Commence ton aventure !")
             if st.button("🚀 Démarrer mon shift", use_container_width=True, type="primary"):
                 start_shift(data, user)
 
@@ -297,6 +297,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
