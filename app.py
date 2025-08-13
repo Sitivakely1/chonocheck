@@ -154,7 +154,7 @@ if cookies.get("user") and cookies.get("user") in USERS:
 
 # Page login
 if not st.session_state.logged_in:
-    st.title("Connexion - Chronométrage Pro ⏱️")
+    st.title("Chronométrage Pro ⏱️")
     col1, col2, col3 = st.columns([1,1.5,1])
     with col2:
         with st.form("login_form"):
@@ -297,6 +297,7 @@ else:
             mime='text/csv',
             use_container_width=True
         )
+
 
 
 
